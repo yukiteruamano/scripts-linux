@@ -22,7 +22,7 @@ def get_property(s, property):
 def mpv_np(caller, callee, helper):
     s = socket.socket(socket.AF_UNIX)
     try:
-        s.connect(expanduser("~") + "/.mpv/socket")
+        s.connect(expanduser("~") + "/.config/mpv/socket")
     except:
         print("Socket error")
         return xchat.EAT_ALL
@@ -36,7 +36,7 @@ def mpv_np(caller, callee, helper):
     s.close()
     return hexchat.EAT_ALL
 
-help_string = "Usage: /mpv \nSetup: Add 'input-unix-socket=~/.mpv/socket' to your ~/.mpv/config"
+help_string = "Usage: /mpv \nSetup: Add 'input-unix-socket=~/.config/mpv/socket' to your ~/.config/mpv/config"
 hexchat.hook_command(
     "mpv",
     mpv_np,
