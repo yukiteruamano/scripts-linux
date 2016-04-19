@@ -1,12 +1,14 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 __module_name__ = "Audacious2 MP3"
-__module_version__ = "1.0"
-__module_description__ = "Otorga informacion sobre la reproduccion de musica en Audacious"
+__module_version__ = "1.1"
+__module_description__ = "HexChat Spam Audacious"
 
-import hexchat
+
 import commands
+import hexchat
+
 
 def mp3_info(word, word_eol, userdata):
 
@@ -18,9 +20,11 @@ def mp3_info(word, word_eol, userdata):
     calidad = commands.getoutput("audtool --current-song-tuple-data quality")
     duracion = commands.getoutput("audtool --current-song-length")
 
-    hexchat.command("me || Audacious: (" + artist + " - " +  titulo + " - " + album + " - " + duracion +") - ("  + bitrate + " kbps - " + genero + " - " + calidad + ") ||"  )
+    hexchat.command("me || Audacious: (" + artist + " - " + titulo + " - " +
+                    album + " - " + duracion + ") - (" + bitrate + " kbps - " +
+                    genero + " - " + calidad + ") ||")
     return hexchat.EAT_ALL
 
-hexchat.hook_command("aump3", mp3_info, help="Despliega la informacion de la reproduccion en Audacious")
+hexchat.hook_command("aump3", mp3_info, help="HexChat Spam Audacious")
 
-print "Audacious MP3 loaded for HexChat IRC"
+print("Audacious MP3 loaded for HexChat IRC")
