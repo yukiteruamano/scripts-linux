@@ -1,18 +1,24 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 __module_name__ = "Clementine MP3"
-__module_version__ = "1.0"
+__module_version__ = "1.1"
 __module_description__ = "Otorga informacion sobre la reproduccion de musica en Clementine"
+
 
 from dbus import Bus, DBusException
 import hexchat
-import commands
+import subprocess
 bus = Bus(Bus.TYPE_SESSION)
+
 
 def check_clementine():
     try:
          return bus.get_object('org.mpris.clementine', '/Player')
     except DBusException:
-        print "\x02Clementine no esta ejecutandose, o ha ocurrido un error en el subsistema DBUS"
+        print( "\x02Clementine no esta ejecutandose, o ha ocurrido un error en el subsistema DBUS")
         return None
+
 
 def mp3_info(word, word_eol, userdata):
 
@@ -29,4 +35,4 @@ def mp3_info(word, word_eol, userdata):
 
 hexchat.hook_command("mp3", mp3_info, help="Despliega la informacion de la reproduccion en Clementine")
 
-print "Clementine MP3 loaded for Hexchat IRC"
+print("Clementine MP3 loaded for Hexchat IRC")

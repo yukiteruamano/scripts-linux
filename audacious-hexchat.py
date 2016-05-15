@@ -6,8 +6,8 @@ __module_version__ = "1.1"
 __module_description__ = "HexChat Spam Audacious"
 
 
-import subprocess
 import hexchat
+import subprocess
 
 
 def mp3_info(word, word_eol, userdata):
