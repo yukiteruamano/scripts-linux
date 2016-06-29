@@ -6,6 +6,7 @@
 function init_remerge() {
 
     if [ "$1" == "update" ]; then
+        sync_emerge
         mount_exec_var
         update_emerge
         mount_noexec_var
@@ -27,13 +28,16 @@ function init_remerge() {
 # Funcion de montaje exec para /var
 function mount_exec_var() {
     sudo mount -o remount,exec /var
-    echo "/var montada con opcion exec"
 }
 
 # Funcion para montaje noexec para /var
 function mount_noexec_var(){
     sudo mount -o remount /var
-    echo "/var montada con opción no exec"
+}
+
+function sync_emerge() {
+    sudo layman -s ALL
+    sudo emerge --sync
 }
 
 # Funcion de actualizacion del sistema
@@ -50,6 +54,7 @@ function install_emerge(){
 
 # Funcion para revdep-rebuild
 function revdep() {
+    echo "Revisando dependencias y librerias rotas en el sistema..."
     sudo revdep-rebuild -v -- --ask
 }
 
