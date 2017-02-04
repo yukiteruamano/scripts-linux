@@ -1,20 +1,19 @@
 #!/bin/bash
 
-
 # Remerge es un fron-end bash para quitarme el tedio de hacer update y otras tareas
 # com emerge de Gentoo / Funtoo
 function init_remerge() {
 
     if [ "$1" == "update" ]; then
+        mount_tmpfs
         sync_emerge
-        mount_exec_var
         update_emerge
-        mount_noexec_var
+        umount_tmpfs
         exit 0
     elif [ "$1" == "install" ]; then
-        mount_exec_var
+        mount_tmpfs
         install_emerge $2
-        mount_noexec_var
+        umount_tmpfs
         exit 0
     elif [ "$1" == "revdep" ]; then
         revdep
@@ -25,17 +24,21 @@ function init_remerge() {
     fi
 }
 
-# Funcion de montaje exec para /var
-function mount_exec_var() {
-    sudo mount -o remount,exec /var
+# Mount tmpfs
+function mount_tmpfs() {
+    echo "Montando TMPFS..."
+    sudo mount -t tmpfs -o size=4G,uid=portage,gid=portage,mode=775,noatime tmpfs /var/tmp/portage
 }
 
-# Funcion para montaje noexec para /var
-function mount_noexec_var(){
-    sudo mount -o remount /var
+# Umount tmpfs
+function umount_tmpfs() {
+    echo "Desmontando TMPFS..."
+    sudo umount /var/tmp/portage
 }
 
+# Sync emerge
 function sync_emerge() {
+    echo "Sincronizando emerge y layman..."
     sudo layman -s ALL
     sudo emerge --sync
 }
@@ -73,3 +76,4 @@ function is_root_user() {
 
 # Llamada a la función de inicialización
 is_root_user $1 $2
+
